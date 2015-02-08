@@ -24,6 +24,8 @@ public class DetailPanel extends JPanel {
 		return new Dimension(350,100);
 	}
 	
+	//AA
+
 	public void setText(String txt) {
 		songText.setText(txt);
 	}

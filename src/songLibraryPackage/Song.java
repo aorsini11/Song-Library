@@ -10,12 +10,11 @@ public class Song {
 	Song next;
 	
 	
-	// Constructor take only Name and Artist
-	
-	
-	//
-	
-	
+	public Song(String name, String artist){
+		Name = name;
+		Artist = artist;		
+	}
+
 	
 	
 	
