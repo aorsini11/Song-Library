@@ -51,13 +51,13 @@ public class SongList {
 			nextSong = nextSong.next;	
 		}
 			
-
+		selected = song;
 		return;
+		
+		
+		
 	}
 	
-	
-	
-	//if all 4 filled, use add detail method  OR let the other 4 fields be null in contructor?
 	
 	
 	public void deleteSong(int index){
@@ -85,8 +85,8 @@ public class SongList {
 		
 		return;
 	}
-
 	
 	
 	
 }
+

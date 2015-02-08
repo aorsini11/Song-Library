@@ -18,40 +18,28 @@ public class SongLibrary extends JFrame implements ActionListener{
 	
 	
 	MusicListPanel list;
-	//DetailPanel details;
 	EditPanel editPanel;
 	AddPanel addPanel;
-	
 	SongList songList; 
-	
-	
 	int selectedIndex;
 	 
 	 
 	 
 	public SongLibrary(String title) {
+		
 		super(title);
-		
-		
 		setLayout(new FlowLayout());
 		
-		
-		
-		//all of these should also take selected index as an arguement?
+		//all of these should also take selected index as an argument?
 		list = new MusicListPanel("Songs", songList);
-		//details = new DetailPanel("Details");
 		editPanel = new EditPanel("Edit Song", songList);
 		addPanel = new AddPanel("Add Song", songList);
-		
 		songList = new SongList();
-		
-		
-		
+	
 		
 		
 		
 		add(list);
-		//add(details);
 		add(editPanel);
 		add(addPanel);
 		
@@ -75,5 +63,5 @@ public class SongLibrary extends JFrame implements ActionListener{
 		}
 	}
 
-
 }
+
