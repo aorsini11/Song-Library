@@ -3,7 +3,6 @@ package songLibraryPackage;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.BorderFactory;
@@ -15,10 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-public class MusicListPanel extends JPanel implements ActionListener{
+public class MusicListPanel extends JPanel {
 
 	
 	
@@ -59,8 +55,6 @@ public class MusicListPanel extends JPanel implements ActionListener{
 		albumNameText.setEditable(false);
 		yearText.setEditable(false);
 		
-		deleteButton.addActionListener(this);
-		
 		add(songNameText);
 		add(albumNameText);
 		add(artistNameText);
@@ -76,7 +70,7 @@ public class MusicListPanel extends JPanel implements ActionListener{
 		
 	
 		//DELETE BUTTON (DOES THIS GO INSIDE PANEL CONSTRUCTOR OR NOT)?
-			//songList.delete(songList.selected.index)  or songList.delete(list.getSelectedIndex())
+			//songList.delete(songList.selected);
 		
 	
 		
@@ -99,40 +93,19 @@ public class MusicListPanel extends JPanel implements ActionListener{
 	}
 	
 	
-	public void actionPerformed(ActionEvent e){ 
-		
-		if(e.getSource() == deleteButton){
-			
-			songList.deleteSong(list.getSelectedIndex());  //instead of songList.selected.index can do list.getindex
-			MusicListPanel.updateList(songList.songsArray(), songList);
-		}
-		return;
-	}
 	
 	
 	
 	
-	public  void displayDetail(Song selected){
-		
-		songNameText.setText("Song Name");
-		artistNameText.setText("Artist Name");
-		
-		if(selected.Album != null){
-			albumNameText.setText("Album Name");
-		}
-		if(selected.Year != null){
-			yearText.setText("Year");
-		}
-		
-		
+	public void displayDetail(Song selected){
+	
+		//set the 4 static text boxes to selected.name, selected.album etc
 	
 	
 	}
 	
-	public static  void updateList(String[] songArray, SongList songList){
+	public static  void updateList(String[] songArray){
 		list.setListData(songArray);
-		//list.setSelectedIndex(songList.selected.index);
-		//displayDetail(songList.selected); cant call this bc its static
 		
 		
 	}
