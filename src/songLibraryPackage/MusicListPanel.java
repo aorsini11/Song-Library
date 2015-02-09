@@ -5,9 +5,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 
-<<<<<<< HEAD
 import javax.swing.*;
-=======
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JList;
@@ -16,7 +14,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
->>>>>>> origin/master
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
