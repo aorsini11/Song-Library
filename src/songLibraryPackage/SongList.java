@@ -10,6 +10,7 @@ public class SongList {
 		
 		
 		numSongs = 0;
+		selected = front;
 		
 	}
 	
@@ -39,7 +40,9 @@ public class SongList {
 	
 	
 	public void addSong(Song song){
-			
+		
+		selected = song;
+		
 		if(front == null){		
 			front = song;
 			numSongs = 1;
