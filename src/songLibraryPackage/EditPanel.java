@@ -8,6 +8,9 @@ import javax.swing.JTextField;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+
 
 public class EditPanel extends JPanel{
 	

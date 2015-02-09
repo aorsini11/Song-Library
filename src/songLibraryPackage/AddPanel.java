@@ -7,7 +7,13 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class AddPanel extends JPanel{
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+
+public class AddPanel extends JPanel implements ActionListener{
+	
+	
 	
 	protected JButton addButton;
 	protected JTextField songNameText;
@@ -29,6 +35,9 @@ public class AddPanel extends JPanel{
 		albumNameText = new JTextField("Album Name");
 		yearText = new JTextField("Year");
 		
+		
+		addButton.addActionListener(this);
+		
 		add(addButton);
 		add(songNameText);
 		add(albumNameText);
@@ -43,42 +52,47 @@ public class AddPanel extends JPanel{
 	}
 		
 
-//ADD BUTTON CALLBACK
-	public void addbutton(){
-		//String song = get song text field
-		// String artist = get artist text field
-		
-		//this is just to get rid of errors
-		String song = "hi";
-		String artist = "hi";
-		
-		
-		
-		if(song.equals("Song") || artist.equals("Artist")){
-			// some error message
-			return;
-		}
-		
-		if(songList.searchList(song, artist) == true){
-			// some error message
-			//set all 4 text fields back to original text
-			return;
-		}
-		else{
-			Song newSong = new Song(song, artist);
-			songList.addSong(newSong);
-			
-			//if get albumNameText != "Album Name" , newSong.albumname = get albumNameText
-			//same for Year
-			
-			//set all 4 boxes back to original text
-			
-		}
-		
-		//update MusicListPanel once the songglist has been updated (how?)
+
 	
+	public void actionPerformed(ActionEvent e){ 
+		
+		if(e.getSource() == addButton){
+			String song = songNameText.getText();
+			String artist = artistNameText.getText();
+					
+						
+			if(song.equals("Song") || artist.equals("Artist")){
+				// some error message
+				return;
+			}
+					
+			if(songList.numSongs != 0 && songList.searchList(song, artist) == true){
+				// some error message
+				//set all 4 text fields back to original text
+				return;
+			}
+			else{
+				Song newSong = new Song(song, artist);
+				songList.addSong(newSong);
+						
+				//if get albumNameText != "Album Name" , newSong.albumname = get albumNameText
+				//same for Year
+						
+				//set all 4 boxes back to original text
+						
+			}
+					
+					//update MusicListPanel once the songglist has been updated (how?)
+					MusicListPanel.updateList(songList.songsArray());
+			
+			
+		}
+		
+		
 		
 	}
+	
+	
 
 	
 

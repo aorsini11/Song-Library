@@ -1,24 +1,35 @@
 package songLibraryPackage;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
+<<<<<<< HEAD
 import javax.swing.*;
+=======
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+>>>>>>> origin/master
 
 public class MusicListPanel extends JPanel {
 
-	//just to see if scroll pane works
-	String[] data = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+	
 	
 	
 	protected JButton deleteButton;
 	JScrollPane scrollPane; //will making them not be protected allow other panels to edit them?
-	JList<String> list;	
+	static JList<String> list;	
 	protected JTextField songNameText;
 	protected JTextField artistNameText;
 	protected JTextField albumNameText;
 	protected JTextField yearText;
-	
+	SongList songList;
 	
 	public MusicListPanel(String title, SongList songList) {
 		
@@ -27,7 +38,7 @@ public class MusicListPanel extends JPanel {
 		setLayout(new FlowLayout());
 		
 		deleteButton = new JButton("Delete");
-		list = new JList<String>(data);
+		list = new JList<String>();
 		scrollPane= new JScrollPane(list);
 		
 		songNameText = new JTextField("Song Name");
@@ -35,6 +46,8 @@ public class MusicListPanel extends JPanel {
 		albumNameText = new JTextField("Album Name");
 		yearText = new JTextField("Year");
 		
+		
+		this.songList = songList;
 		
 		//did this even do anything? is this the right argument? 
 		list.setSelectionMode(1);
@@ -92,6 +105,12 @@ public class MusicListPanel extends JPanel {
 		//set the 4 static text boxes to selected.name, selected.album etc
 	
 	
+	}
+	
+	public static  void updateList(String[] songArray){
+		list.setListData(songArray);
+		
+		
 	}
 	
 	
