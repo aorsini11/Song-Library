@@ -92,7 +92,7 @@ public class EditPanel extends JPanel{
 		
 			//}
 	
-			//update MusicListPanel once the songglist has been updated (how?)
+			//MusicListPanel.updateList(songList.songsArray());
 		
 		//}
 		

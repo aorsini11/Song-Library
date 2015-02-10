@@ -75,15 +75,24 @@ public class AddPanel extends JPanel implements ActionListener{
 				Song newSong = new Song(song, artist);
 				songList.addSong(newSong);
 						
-				//if get albumNameText != "Album Name" , newSong.albumname = get albumNameText
-				//same for Year
+				if(!albumNameText.getText().equals("Album Name")){
+					newSong.Album = albumNameText.getText();
+				}
+				if(!yearText.getText().equals("Year")){
+					newSong.Year = yearText.getText();
+				}
 						
-				//set all 4 boxes back to original text
+				songNameText.setText("Song Name");
+				albumNameText.setText("Album Name");
+				artistNameText.setText("Artist Name");
+				yearText.setText("Year");		
+						
+						
 						
 			}
 					
-					//update MusicListPanel once the songglist has been updated (how?)
-					MusicListPanel.updateList(songList.songsArray());
+					
+					MusicListPanel.updateList(songList.songsArray(), songList);
 			
 			
 		}
