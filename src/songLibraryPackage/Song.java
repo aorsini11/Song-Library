@@ -10,12 +10,17 @@ public class Song {
 	Song next;
 	
 	
-	// Constructor take only Name and Artist
-	
-	
-	//
-	
-	
+	public Song(String name, String artist){
+		Name = name;
+		Artist = artist;		
+	}
+
+	public Song(String name, String artist,String album,String year){
+		this.Name = name;
+		this.Artist = artist;		
+		this.Album = album;
+		this.Year = year;
+	}
 	
 	
 	

@@ -8,7 +8,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class DetailPanel extends JPanel {
-
+	//c
 	JTextArea songText = new JTextArea(4,14);
 	String songName;
 	String artistName;

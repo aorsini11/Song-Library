@@ -14,17 +14,35 @@ import javax.swing.SwingUtilities;
 
 public class SongLibrary extends JFrame implements ActionListener{
 
-	JButton ok, exit;
-	MusicListPanel list = new MusicListPanel("Songs");
-	DetailPanel details = new DetailPanel("Details");
 	
+	JButton ok, exit;
+	
+	
+	MusicListPanel list;
+	EditPanel editPanel;
+	AddPanel addPanel;
+	SongList songList; 
+	int selectedIndex;
+	 
+	 
+	 
 	public SongLibrary(String title) {
+		
 		super(title);
-		
-		
 		setLayout(new FlowLayout());
+		songList = new SongList();
+		//all of these should also take selected index as an argument?
+		list = new MusicListPanel("Songs", songList);
+		editPanel = new EditPanel("Edit Song", songList);
+		addPanel = new AddPanel("Add Song", songList);
+		
+	
+		
+		
+		
 		add(list);
-		add(details);
+		add(editPanel);
+		add(addPanel);
 		
 	}
 	
