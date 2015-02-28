@@ -1,0 +1,147 @@
+package songLibraryPackage;
+
+import java.awt.Dimension;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+
+public class AddPanel extends JPanel implements ActionListener{
+	
+	
+	
+	protected JButton addButton;
+	protected JTextField songNameText;
+	protected JTextField artistNameText;
+	protected JTextField albumNameText;
+	protected JTextField yearText;
+	
+	protected JLabel songNameTextS;
+	protected JLabel artistNameTextS;
+	protected JLabel albumNameTextS;
+	protected JLabel yearTextS;
+	
+
+	public AddPanel(String title, SongList songList){
+		
+		setBorder(BorderFactory.createTitledBorder(title));
+		
+
+		addButton = new JButton("Add");
+		songNameText = new JTextField("Song Name");
+		artistNameText = new JTextField("Artist Name");
+		albumNameText = new JTextField("Album Name");
+		yearText = new JTextField("Year");
+		
+		songNameTextS = new JLabel("Song Name  ");
+		artistNameTextS = new JLabel("Artist Name");
+		albumNameTextS = new JLabel("Album Name ");
+		yearTextS = new JLabel("Year            ");
+		
+		songNameText.setPreferredSize(new Dimension(100,20));
+		albumNameText.setPreferredSize(new Dimension(100,20));
+		artistNameText.setPreferredSize(new Dimension(100,20));
+		yearText.setPreferredSize(new Dimension(100,20));
+		
+		addButton.setPreferredSize(new Dimension(150,25));;
+		addButton.addActionListener(this);
+		
+		add(addButton);
+		add(songNameTextS);
+		add(songNameText);
+		add(albumNameTextS);
+		add(albumNameText);
+		add(artistNameTextS);
+		add(artistNameText);
+		add(yearTextS);
+		add(yearText);
+		
+	}
+	
+	
+	public Dimension getPreferredSize() {
+		return new Dimension(220,250);
+	}
+		
+
+
+	
+	public void actionPerformed(ActionEvent e){ 
+		if(EditPanel.editing){
+			EditPanel.editing = false;
+			EditPanel.resetvalues();
+			EditPanel.makeUneditable();
+			
+		}
+		
+		if(e.getSource() == addButton){
+			String song = songNameText.getText();
+			String artist = artistNameText.getText();
+			String album = albumNameText.getText();
+			String year = yearText.getText();
+					
+			System.out.println("1) selected at beginning of add button " + SongList.selected.Name);
+						
+			if(song.equals("Song Name") || artist.equals("Artist Name")){
+				// some error message
+				return;
+			}
+			if(album.equals("Album Name")){
+				album = "";
+			}
+			if(year.equals("Year")){
+				year = "";
+			}
+					
+					
+
+			if(SongList.numSongs != 0 && SongList.searchList(song, artist) == true){
+				// some error message
+				//set all 4 text fields back to original text
+				return;
+			}
+			else{
+
+				Song newSong = new Song(song, artist,album,year);
+				SongList.addSong(newSong);
+					
+				/* simplified this up top
+
+				Song newSong = new Song(song, artist);
+				songList.addSong(newSong);
+
+				if(!albumNameText.getText().equals("Album Name")){
+					newSong.Album = albumNameText.getText();
+				}
+				if(!yearText.getText().equals("Year")){
+					newSong.Year = yearText.getText();
+				}*/
+
+
+				songNameText.setText("Song Name");
+				albumNameText.setText("Album Name");
+				artistNameText.setText("Artist Name");
+				yearText.setText("Year");		
+				System.out.println("4.1) selected at end of add panel, inside bracket " + SongList.selected.Name);
+
+			}
+				System.out.println("4.2) selected at end of add panel, outside bracket " + SongList.selected.Name);
+				MusicListPanel.updateList(SongList.songsArray());
+			
+		}
+				
+	}
+	
+	
+
+	
+
+	
+}
+

@@ -1,0 +1,197 @@
+package songLibraryPackage;
+
+public class SongList {
+
+	static Song front;
+	static Song selected;
+
+
+	static int numSongs;
+	
+	public SongList(){
+		
+		
+		numSongs = 0;
+		selected = front;
+		
+	}
+	
+	
+	public static boolean searchList(String song, String artist){
+		
+		if(front == null){
+			return false;
+		}
+		
+		
+		Song current = front;
+		
+		for(int i = 0; i < numSongs; i++){
+			if(current.Name.equals(song) && current.Artist.equals(artist)){
+				return true;
+			}
+			current = current.next;
+		}
+		
+		
+		
+		return false;
+	
+	}
+	
+	
+	
+	public static void addSong(Song song){
+
+		numSongs++;
+		selected = song;
+		
+		
+		if(front == null){
+			front = song;
+			MusicListPanel.updateSelectedVals(selected);
+			return;
+		}
+		else{
+			
+			if(front.next == null){
+				if( front.Name.toLowerCase().compareTo(song.Name.toLowerCase()) < 0){  
+					front.next = song;
+					MusicListPanel.updateSelectedVals(selected);
+					return;
+				}
+				else{ //if song comes before front
+					song.next = front;
+					front = song;
+					MusicListPanel.updateSelectedVals(selected);
+					return;
+				}
+				
+				
+			}
+			else{
+				
+				if(front.Name.toLowerCase().compareTo(song.Name.toLowerCase()) > 0){  //new added song goes to front of list
+					song.next = front;
+					front = song;
+					MusicListPanel.updateSelectedVals(selected);
+				}
+				else{
+					
+					Song previous = front;
+					
+					while(previous.next != null && song.Name.toLowerCase().compareTo((previous.next).Name.toLowerCase()) > 0){
+						previous =previous.next;
+					}
+					
+					song.next = previous.next;
+					previous.next = song;
+					MusicListPanel.updateSelectedVals(selected);
+					
+				}
+					
+			}
+				
+			
+		}
+	
+			return;
+		
+	}
+	
+	
+public static Song getSongAtIndex(int index){
+	
+	Song current = front;
+	
+	for(int i = 0; i < index; i++){
+		current = current.next;
+	}
+	
+	return current;
+	
+}
+
+
+public static int getIndex(Song song){
+	
+	if(song==null)
+	{
+		return 0;
+	}
+	int index = 0;
+	Song current = front;
+	if(current == null)
+		return 0;
+	while(! song.equals(current)){
+		if(current.next==null)
+			break;
+		current = current.next;
+		index++;
+		
+		if(index > numSongs){
+			//throw an exception
+			break;
+		}
+		
+	}
+	
+	return index;
+}
+	
+	
+	
+public static void deleteSong(int index){
+	
+	numSongs--;
+	if(numSongs>0){
+		if(index != 0){
+			Song previous = getSongAtIndex(index - 1);
+			selected = previous;
+			if((previous.next).next != null){
+				previous.next = (previous.next).next;
+			}
+			else{
+				previous.next = null;
+			}
+			
+		}
+		else{
+			front = front.next;
+			selected = front;
+		}
+	}
+	else{
+		front = null;
+		numSongs = 0;
+		selected = null;
+	}
+	
+	MusicListPanel.updateSelectedVals(selected);
+	return;
+}
+		
+	
+	
+	
+	public static String[] songsArray(){
+		
+		String[] songsArray = new String[numSongs];
+		Song current = front;
+	
+		for(int i = 0; i < numSongs; i++){
+			songsArray[i] = current.Name;
+			current = current.next;
+			
+		}
+		
+		
+		
+		return songsArray;
+		
+	}
+	
+	
+	
+}
+
