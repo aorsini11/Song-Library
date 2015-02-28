@@ -1,10 +1,13 @@
+//Alessandro Orsini and Anuja Sarwate
 package songLibraryPackage;
 
 public class SongList {
 
-	Song front;
+	static Song front;
 	static Song selected;
-	int numSongs;
+
+
+	static int numSongs;
 	
 	public SongList(){
 		
@@ -12,11 +15,10 @@ public class SongList {
 		numSongs = 0;
 		selected = front;
 		
-		
 	}
 	
 	
-	public boolean searchList(String song, String artist){
+	public static boolean searchList(String song, String artist){
 		
 		if(front == null){
 			return false;
@@ -40,7 +42,11 @@ public class SongList {
 	
 	
 	
-	public void addSong(Song song){
+	public static void addSong(Song song){
+		
+		if(SongList.selected != null && SongList.front != null){
+		//System.out.println("2) selected at beginning of songlist.add " + SongList.selected.Name);
+		}
 		
 		numSongs++;
 		selected = song;
@@ -48,24 +54,20 @@ public class SongList {
 		
 		if(front == null){
 			front = song;
-			front.index = 0;
 			MusicListPanel.updateSelectedVals(selected);
 			return;
 		}
 		else{
 			
 			if(front.next == null){
-				if( front.Name.compareTo(song.Name) < 0){  //if song comes after front
+				if( front.Name.toLowerCase().compareTo(song.Name.toLowerCase()) < 0){  
 					front.next = song;
-					song.index = 1;
 					MusicListPanel.updateSelectedVals(selected);
 					return;
 				}
 				else{ //if song comes before front
 					song.next = front;
 					front = song;
-					front.index = 0;
-					(front.next).index = 1;
 					MusicListPanel.updateSelectedVals(selected);
 					return;
 				}
@@ -74,23 +76,21 @@ public class SongList {
 			}
 			else{
 				
-				if(front.Name.compareTo(song.Name) > 0){  //new added song goes to front of list
+				if(front.Name.toLowerCase().compareTo(song.Name.toLowerCase()) > 0){  //new added song goes to front of list
 					song.next = front;
 					front = song;
-					front.index = 0;
 					MusicListPanel.updateSelectedVals(selected);
 				}
 				else{
 					
 					Song previous = front;
 					
-					while(previous.next != null && song.Name.compareTo((previous.next).Name) > 0){
+					while(previous.next != null && song.Name.toLowerCase().compareTo((previous.next).Name.toLowerCase()) > 0){
 						previous =previous.next;
 					}
 					
 					song.next = previous.next;
 					previous.next = song;
-					song.index = previous.index + 1;
 					MusicListPanel.updateSelectedVals(selected);
 					
 				}
@@ -100,16 +100,12 @@ public class SongList {
 			
 		}
 		
-		
-		
-		
-		
 		return;
 		
 	}
 	
 	
-public Song getSongAtIndex(int index){
+public static Song getSongAtIndex(int index){
 	
 	Song current = front;
 	
@@ -122,13 +118,19 @@ public Song getSongAtIndex(int index){
 }
 
 
-public int getIndex(Song song){
+public static int getIndex(Song song){
 	
+	if(song==null)
+	{
+		return 0;
+	}
 	int index = 0;
 	Song current = front;
 	if(current == null)
 		return 0;
 	while(! song.equals(current)){
+		if(current.next==null)
+			break;
 		current = current.next;
 		index++;
 		
@@ -139,45 +141,49 @@ public int getIndex(Song song){
 		
 	}
 	
-	
-	
-	
-	
 	return index;
 }
 	
 	
 	
-	public void deleteSong(int index){
-		
-		numSongs--;
-		
+public static void deleteSong(int index){
+	
+	numSongs--;
+	if(numSongs>0){
 		if(index != 0){
 			Song previous = getSongAtIndex(index - 1);
-			
+			selected = previous;
 			if((previous.next).next != null){
 				previous.next = (previous.next).next;
 			}
 			else{
 				previous.next = null;
 			}
-			selected = previous;
+			
 		}
 		else{
 			front = front.next;
 			selected = front;
 		}
-		if(selected!=null)
-			MusicListPanel.updateSelectedVals(selected);
-		else
-			MusicListPanel.resetSelectedVals();
-		
-		return;
+	}
+	else{
+		front = null;
+		numSongs = 0;
+		selected = null;
 	}
 	
+	MusicListPanel.updateSelectedVals(selected);
+	return;
+}
+		
 	
 	
-	public String[] songsArray(){
+	
+	public static String[] songsArray(){
+		
+		if(front != null && selected != null){
+			//System.out.println("5) selected at begining of songsArray method" + selected.Name);
+		}
 		
 		String[] songsArray = new String[numSongs];
 		Song current = front;
@@ -188,6 +194,9 @@ public int getIndex(Song song){
 			
 		}
 		
+		if(front != null && selected!= null){
+			//System.out.println("5) selected at end of songsArray method" + selected.Name);
+		}
 		
 		
 		return songsArray;
@@ -197,3 +206,4 @@ public int getIndex(Song song){
 	
 	
 }
+

@@ -1,3 +1,4 @@
+//Alessandro Orsini and Anuja Sarwate
 package songLibraryPackage;
 
 public class Song {
@@ -6,13 +7,14 @@ public class Song {
 	String Artist;
 	String Album;
 	String Year;
-	int index;
+	
 	Song next;
 	
 	
 	public Song(String name, String artist){
 		Name = name;
-		Artist = artist;		
+		Artist = artist;
+		
 	}
 
 	public Song(String name, String artist,String album,String year){
@@ -21,6 +23,13 @@ public class Song {
 		this.Album = album;
 		this.Year = year;
 	}
+	public Song(Song song){
+		this.Name = song.Name;
+		this.Artist = song.Artist;		
+		this.Album = song.Album;
+		this.Year = song.Year;
+	}
+
 	
 	
 	

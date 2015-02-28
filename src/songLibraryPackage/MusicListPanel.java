@@ -1,3 +1,5 @@
+//Alessandro Orsini and Anuja Sarwate
+
 package songLibraryPackage;
 
 import java.awt.Component;
@@ -5,14 +7,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,16 +17,26 @@ import java.awt.event.ActionListener;
 public class MusicListPanel extends JPanel implements ActionListener{
 
 	
-	
+	protected JLabel songNameTextS;
+	protected JLabel artistNameTextS;
+	protected JLabel albumNameTextS;
+	protected JLabel yearTextS;
 	
 	protected JButton deleteButton;
-	JScrollPane scrollPane; //will making them not be protected allow other panels to edit them?
+	JScrollPane scrollPane;
 	static JList<String> list;	
+
 	protected static JTextField songNameText;
 	protected static JTextField artistNameText;
 	protected static JTextField albumNameText;
 	protected static JTextField yearText;
-	SongList songList;
+/*
+	protected JTextField songNameText;
+	protected JTextField artistNameText;
+	protected JTextField albumNameText;
+	protected JTextField yearText;
+*/
+	//SongList songList;
 	
 	public MusicListPanel(String title, SongList songList) {
 		
@@ -41,16 +48,39 @@ public class MusicListPanel extends JPanel implements ActionListener{
 		list = new JList<String>();
 		scrollPane= new JScrollPane(list);
 		
-		
 		songNameText = new JTextField("Song Name");
 		artistNameText = new JTextField("Artist Name");
 		albumNameText = new JTextField("Album Name");
 		yearText = new JTextField("Year");
 		
+		songNameTextS = new JLabel("Song Name  ");
+		artistNameTextS = new JLabel("Artist Name");
+		albumNameTextS = new JLabel("Album Name ");
+		yearTextS = new JLabel("Year            ");
 		
-		this.songList = songList;
 		
-		//did this even do anything? is this the right argument? 
+		
+		ListSelectionListener listSelectionListener = new ListSelectionListener() {
+		      public void valueChanged(ListSelectionEvent listSelectionEvent) {
+		    	
+		    	  if(EditPanel.editing){
+		  			EditPanel.editing = false;
+		  			EditPanel.resetvalues();
+		  			EditPanel.makeUneditable();
+		  			//editButton.setText("Edit");
+		  		}
+		   
+		    	//  SongList.selected = SongList.getSongAtIndex(listSelectionEvent.getLastIndex());
+		        JList currlist = (JList) listSelectionEvent.getSource();
+		        SongList.selected = SongList.getSongAtIndex(currlist.getSelectedIndex());
+		       updateSelectedVals(SongList.selected);
+		      }
+		    };
+		    list.addListSelectionListener(listSelectionListener);
+		
+		
+		
+		
 		list.setSelectionMode(1);
 		
 		
@@ -59,8 +89,24 @@ public class MusicListPanel extends JPanel implements ActionListener{
 		albumNameText.setEditable(false);
 		yearText.setEditable(false);
 		
+		scrollPane.setPreferredSize(new Dimension(400,100));
+		
+		songNameTextS.setPreferredSize(new Dimension(110,20));
+		albumNameTextS.setPreferredSize(new Dimension(100,20));
+		artistNameTextS.setPreferredSize(new Dimension(100,20));
+		yearTextS.setPreferredSize(new Dimension(150,20));
+		
+		songNameText.setPreferredSize(new Dimension(100,20));
+		albumNameText.setPreferredSize(new Dimension(100,20));
+		artistNameText.setPreferredSize(new Dimension(100,20));
+		yearText.setPreferredSize(new Dimension(100,20));
+		
 		deleteButton.addActionListener(this);
 		
+		add(songNameTextS);
+		add(albumNameTextS);
+		add(artistNameTextS);
+		add(yearTextS);
 		add(songNameText);
 		add(albumNameText);
 		add(artistNameText);
@@ -71,9 +117,13 @@ public class MusicListPanel extends JPanel implements ActionListener{
 		
 		
 		//SELECTION  (DOES THIS GO INSIDE PANEL CONSTRUCTOR OR NOT)?
+
 			//updateSelected(list.getSelectedIndex()) 
 			//displayDetail(songList.selected)
-		
+
+			//updateSelected()
+			//displayDetail()
+
 	
 		//DELETE BUTTON (DOES THIS GO INSIDE PANEL CONSTRUCTOR OR NOT)?
 			//songList.delete(songList.selected.index)  or songList.delete(list.getSelectedIndex())
@@ -85,7 +135,6 @@ public class MusicListPanel extends JPanel implements ActionListener{
 	public Dimension getPreferredSize() {
 		return new Dimension(550,200);
 	}
-	
 	
 	
 	public void updateSelected(int index, SongList songList){
@@ -102,11 +151,19 @@ public class MusicListPanel extends JPanel implements ActionListener{
 	
 	}
 	public static void updateSelectedVals(Song selected){
-		
+		if(selected!=null){
 		songNameText.setText(selected.Name);
 		artistNameText.setText(selected.Artist);
 		albumNameText.setText(selected.Album);
-		yearText.setText(selected.Year);
+		yearText.setText(selected.Year);	
+		}
+		else{
+			songNameText.setText("Song Name");
+			artistNameText.setText("Artist Name");
+			albumNameText.setText("Album Name");
+			yearText.setText("Year");	
+		}
+		
 	}
 	
 public static void resetSelectedVals(){	
@@ -117,12 +174,20 @@ public static void resetSelectedVals(){
 	}
 	
 	
+	
+	
+	
 	public void actionPerformed(ActionEvent e){ 
 		
 		if(e.getSource() == deleteButton){
-			
-			songList.deleteSong(list.getSelectedIndex());  //instead of songList.selected.index can do list.getindex
-			MusicListPanel.updateList(songList.songsArray(), songList);
+			if(EditPanel.editing){
+				EditPanel.editing = false;
+				EditPanel.resetvalues();
+				EditPanel.makeUneditable();
+				//editButton.setText("Edit");
+			}
+			SongList.deleteSong(list.getSelectedIndex());  //instead of songList.selected.index can do list.getindex
+			MusicListPanel.updateList(SongList.songsArray());
 		}
 		return;
 	}
@@ -147,14 +212,19 @@ public static void resetSelectedVals(){
 	
 	}
 	
-	public static  void updateList(String[] songArray, SongList songList){
+	public static  void updateList(String[] songArray){
+		
+		Song temp = SongList.selected;
+		
 		list.setListData(songArray);
-		list.setSelectedIndex(songList.getIndex(songList.selected));
-		//displayDetail(songList.selected); //cant call this bc its static (make display detail static and add the text fields as args?
+		SongList.selected = temp;
 		
-		
-		
+		list.setSelectedIndex(SongList.getIndex(SongList.selected));
+
 	}
 	
-	
 }
+	
+
+
+
